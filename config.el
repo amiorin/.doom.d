@@ -25,7 +25,6 @@
 (defun disable-y-or-n-p (orig-fun &rest args)
   (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
     (apply orig-fun args)))
-
 (advice-add 'ediff-quit :around #'disable-y-or-n-p)
 
 (after! keycast
@@ -37,3 +36,12 @@
       (remove-hook 'pre-command-hook 'keycast--update))))
 (add-to-list 'global-mode-string '("" keycast-mode-line))
 (require 'keycast)
+
+(use-package! poetry
+  :defer t
+  :config
+  (setq poetry-tracking-strategy 'projectile))
+
+(setq shell-file-name (executable-find "bash"))
+(setq-default vterm-shell (executable-find "fish"))
+(setq-default explicit-shell-file-name (executable-find "fish"))
